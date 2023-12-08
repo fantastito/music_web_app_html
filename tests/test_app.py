@@ -67,21 +67,44 @@ def test_albums_have_link(page, test_web_address, db_connection):
 """
 Challenge
 1. Add a route GET /artists/<id> which returns an HTML page showing details for a single artist.
-    - Decide what artist HTML page will look like: artist name in title, genre in paragraph
+    - DONE Decide what artist HTML page will look like: artist name in title, genre in paragraph
+    - DONE Write test (similar to test for album)
+    - DONE Write app route
+    - DONE (NOT NEEDED) Write ArtistRepo method (if needed)
+    - DONE Write HTML template
+    - Browser displays as expected, suggets test is wrong?
+    - Passes
+2. Add a route GET /artists which returns an HTML page with the list of artists. 
+This page should contain a link for each artist listed, linking to /artists/<id> 
+where <id> needs to be the corresponding artist id.
+    - DONE Decide what artist HTML page will look like
+        - Same layout as albums page, Name: [name]\n Genre: [genre]
     - Write test (similar to test for album)
+        - DONE Check for impact on old tests
     - Write app route
+        -Check for impact on old routes 
     - Write ArtistRepo method (if needed)
     - Write HTML template
-2. Add a route GET /artists which returns an HTML page with the list of artists. This page should contain a link for each artist listed, linking to /artists/<id> where <id> needs to be the corresponding artist id.
 """
 
 def test_get_artist_id_1(page, test_web_address, db_connection):
     db_connection.seed('seeds/music_library.sql')
-    page.goto(f"http://{test_web_address}/albums/1")
+    page.goto(f"http://{test_web_address}/artists/1")
     h1_tags = page.locator("h1")
     p_tags = page.locator("p")
     expect(h1_tags).to_have_text("Pixies")
     expect(p_tags).to_have_text("Genre: Rock")
 
-#Let's just make this repo mine and do some adds/commits
-#The repo is still cloned from the starter
+def test_get_artists_(page, test_web_address, db_connection):
+    db_connection.seed('seeds/music_library.sql')
+    page.goto(f"http://{test_web_address}/artists")
+    div_tags = page.locator("div")
+    header_tag = page.locator("h1")
+ 
+    expect(header_tag).to_have_text("Artists")
+    expect(div_tags).to_have_text([
+        "Name: Pixies\nGenre: Rock",
+        "Name: ABBA\nGenre: Pop",
+        "Name: Taylor Swift\nGenre: Pop",
+        "Name: Nina Simone\nGenre: Jazz",
+    ])
