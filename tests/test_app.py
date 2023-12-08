@@ -114,3 +114,11 @@ def test_get_artists(page, test_web_address, db_connection):
         "Name: Nina Simone\nGenre: Jazz",
     ])
 
+def test_artists_have_link(page, test_web_address, db_connection):
+    db_connection.seed('seeds/music_library.sql')
+    page.goto(f"http://{test_web_address}/artists")
+    page.click("text='Pixies'")
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("Pixies")
+    p_tags = page.locator("p")
+    expect(p_tags).to_have_text("Genre: Rock")
