@@ -79,12 +79,17 @@ This page should contain a link for each artist listed, linking to /artists/<id>
 where <id> needs to be the corresponding artist id.
     - DONE Decide what artist HTML page will look like
         - Same layout as albums page, Name: [name]\n Genre: [genre]
-    - Write test (similar to test for album)
+    - DONE Write test (similar to test for album)
         - DONE Check for impact on old tests
-    - Write app route
-        -Check for impact on old routes 
-    - Write ArtistRepo method (if needed)
-    - Write HTML template
+    - DONE Write app route
+        - Check for impact on old routes
+        - Existing route returns simple list. Will change to return HTML page
+    - DONE NOT NEEDED Write ArtistRepo method (if needed)
+    - DONE Write HTML template
+        - Name in title h1 tags
+        - Genre in div tags, w/link by artist id
+    - Test requires extra assertions
+        - Does not check links.
 """
 
 def test_get_artist_id_1(page, test_web_address, db_connection):
@@ -95,7 +100,7 @@ def test_get_artist_id_1(page, test_web_address, db_connection):
     expect(h1_tags).to_have_text("Pixies")
     expect(p_tags).to_have_text("Genre: Rock")
 
-def test_get_artists_(page, test_web_address, db_connection):
+def test_get_artists(page, test_web_address, db_connection):
     db_connection.seed('seeds/music_library.sql')
     page.goto(f"http://{test_web_address}/artists")
     div_tags = page.locator("div")
@@ -108,3 +113,4 @@ def test_get_artists_(page, test_web_address, db_connection):
         "Name: Taylor Swift\nGenre: Pop",
         "Name: Nina Simone\nGenre: Jazz",
     ])
+

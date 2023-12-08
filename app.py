@@ -48,9 +48,8 @@ def get_album_by_id(id):
 def get_artists():
     connection = get_flask_database_connection(app)
     repository = ArtistRepository(connection)
-    return ", ".join(
-        f"{artist.name}" for artist in repository.all()
-    )
+    artists = repository.all()
+    return render_template('artists/index.html', artists=artists)
 
 @app.route('/artists/<int:id>', methods=['GET'])
 def get_artist_by_id(id):
